@@ -179,6 +179,7 @@ def disk_to_mbtiles(directory_path, mbtiles_file, **kwargs):
     mbtiles_setup(cur)
     #~ image_format = 'png'
     image_format = kwargs.get('format', 'png')
+    no_extension = kwargs.get('no_extension')
 
     try:
         metadata = json.load(open(os.path.join(directory_path, 'metadata.json'), 'r'))
@@ -221,7 +222,12 @@ def disk_to_mbtiles(directory_path, mbtiles_file, **kwargs):
                 if current_file == ".DS_Store" and not silent:
                     logger.warning("Your OS is MacOS,and the .DS_Store file will be ignored.")
                 else:
-                    file_name, ext = current_file.split('.',1)
+                    if no_extension:
+                        file_name = current_file
+                        ext = image_format
+                    else:
+                        file_name, ext = current_file.split('.',1)
+
                     f = open(os.path.join(directory_path, zoom_dir, row_dir, current_file), 'rb')
                     file_content = f.read()
                     f.close()

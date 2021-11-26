@@ -57,3 +57,10 @@ def test_disk_to_mbtiles_zyx():
     disk_to_mbtiles('test/data/tiles/zyx', 'test/output/zyx.mbtiles', scheme='zyx', format='png')
     mbtiles_to_disk('test/output/zyx.mbtiles', 'test/output/tiles', callback=None)
     assert os.path.exists('test/output/tiles/3/1/5.png')
+
+@with_setup(clear_data, clear_data)
+def test_disk_to_mbtiles_no_extension_zyx():
+    os.mkdir('test/output')
+    disk_to_mbtiles('test/data/tiles-no-extension/zyx', 'test/output/zyx-no-extension.mbtiles', scheme='zyx', format='png', no_extension=True)
+    mbtiles_to_disk('test/output/zyx-no-extension.mbtiles', 'test/output/tiles-no-extension', callback=None)
+    assert os.path.exists('test/output/tiles-no-extension/3/1/5.png')
